@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+
+
+<head>
+  <title>
+    {% block title %}{% endblock %}
+  </title>
+  <link href="{% static 'app/styles-out.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  {% block body %}
+  {% endblock %}
+</body>
+
+
+
+</html>
