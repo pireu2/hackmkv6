@@ -156,7 +156,7 @@ def register_cargo_view(request):
     cargo_source = request.POST.get("source")
     cargo_company = request.user.company
     if not cargo_name or not cargo_mass or not cargo_volume or not cargo_destination or not cargo_source:
-      return render(request, "app/cargo.html", {"error": "All fields are required"})
+      return render(request, "app/register_cargo.html", {"error": "All fields are required"})
     Cargo.objects.create(name=cargo_name,mass=cargo_mass,volume=cargo_volume,company=cargo_company,source_address=cargo_source,destination_address=cargo_destination)
     
     return redirect("index")
