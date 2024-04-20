@@ -28,6 +28,9 @@ class Company(models.Model):
   name = models.CharField(max_length=100)
   address = models.CharField(max_length=100)
 
+  def get_address(self):
+    return self.address
+
 class CompanyInvitation(models.Model):
   id = models.AutoField(primary_key=True)
   company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -54,6 +57,7 @@ class Vehicle(models.Model):
   capacity_mass = models.IntegerField(validators=[MinValueValidator(1)])
   capacity_volume = models.IntegerField(validators=[MinValueValidator(1)])
   company = models.ForeignKey(Company, on_delete=models.CASCADE,blank=False,null=False)
+  current_location = models.CharField(max_length=100, default="")
   is_active = models.BooleanField(default=True)
 
 class Cargo(models.Model):

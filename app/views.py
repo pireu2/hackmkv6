@@ -118,7 +118,9 @@ def register_vehicle_view(request):
       return render(request, "app/register_vehicle.html", {"error": "Plate number must be 10 characters"})
     if Vehicle.objects.filter(plate_number=vehicle_number).exists():
       return render(request, "app/register_vehicle.html", {"error": "Vehicle already exists"})
-    Vehicle.objects.create(plate_number=vehicle_number,type=vehicle_type,model=vehicle_model,capacity_mass=vehicle_capacity_mass,capacity_volume=vehicle_capacity_volume,company=vehicle_company)
+    Vehicle.objects.create(plate_number=vehicle_number,type=vehicle_type,model=vehicle_model,capacity_mass=vehicle_capacity_mass,
+                           capacity_volume=vehicle_capacity_volume,company=vehicle_company, 
+                           current_location=vehicle_company.get_address())
 
     return redirect("index")
   
