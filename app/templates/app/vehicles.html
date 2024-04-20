@@ -1,0 +1,100 @@
+{% extends "app/layout.html" %}
+
+{% block body %}
+
+
+
+
+<section>
+
+  <div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-white">
+        <thead class="text-xs text-white uppercase bg-gray-900">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Plate Number
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Model
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Mass Capacity
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Volume Capacity
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Active
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          {%for vehicle in vehicles%}
+            <tr class="bg-indigo-950 border-b border-gray-900">
+                <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                    {{vehicle.plate_number}}
+                </th>
+                <td class="px-6 py-4">
+                  {% if vehicle.type == 'car' %}
+                  <span class="material-symbols-outlined">
+                    directions_car
+                    </span>
+                  {% elif vehicle.type == 'truck' %}
+                  <span class="material-symbols-outlined">
+                    local_shipping
+                    </span>
+                  {% elif vehicle.type == 'minivan' %}
+                  <span class="material-symbols-outlined">
+                    airport_shuttle
+                    </span>
+                  {% endif %}
+                </td>
+                <td class="px-6 py-4">
+                    {{vehicle.model}}
+                </td>
+                <td class="px-6 py-4">
+                    {{vehicle.capacity_mass}}
+                </td>
+                <td class="px-6 py-4">
+                    {{vehicle.capacity_volume}}
+                </td>
+                <td class="px-6 py-4">
+                  {% if vehicle.active %}
+                    Yes
+                  {% else %}
+                    No
+                  {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr class="bg-indigo-950 border-b border-gray-900">
+                <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                    No vehicles found
+                </th>
+                <td class="px-6 py-4">
+                    -
+                </td>
+                <td class="px-6 py-4">
+                    -
+                </td>
+                <td class="px-6 py-4">
+                    -
+                </td>
+                <td class="px-6 py-4">
+                  -
+              </td>
+                <td class="px-6 py-4">
+                  -
+              </td>
+            {%endfor%}
+        </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+{% endblock %}
