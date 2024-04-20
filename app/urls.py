@@ -12,6 +12,6 @@ urlpatterns = [
   path('invite',views.invite_view,name="invite"),
   path('register_company',views.register_company_view,name="register_company"),
   path('register_vehicle',views.register_vehicle_view,name="register_vehicle"),
-  path('vehicles',views.vehicles_view,name="vehicles")
-  path('cargo',views.cargo_view,name="cargo"),
+  path('vehicles',views.vehicles_view,name="vehicles"),
+  path('register_cargo',views.register_cargo_view,name="cargo"),
 ]

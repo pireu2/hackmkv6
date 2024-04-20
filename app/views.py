@@ -12,7 +12,6 @@ def index(request):
       return render(request,"app/index.html")
   else:
     return redirect("login")
-  
 
 def register_company_view(request):
   if request.user.is_authenticated:
@@ -121,7 +120,6 @@ def register_vehicle_view(request):
       return render(request, "app/register_vehicle.html", {"error": "Vehicle already exists"})
     Vehicle.objects.create(plate_number=vehicle_number,type=vehicle_type,model=vehicle_model,capacity_mass=vehicle_capacity_mass,capacity_volume=vehicle_capacity_volume,company=vehicle_company)
 
-    
     return redirect("index")
   
 @login_required
@@ -147,7 +145,7 @@ def invite_view(request):
     return render(request,"app/invite.html",{"invitation_message":invitation_code})
   
 @login_required
-def cargo_view(request):
+def register_cargo_view(request):
   if request.method == 'GET':
     return render(request, "app/cargo.html")
   elif request.method == 'POST':
