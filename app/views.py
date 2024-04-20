@@ -6,10 +6,12 @@ from .models import User, Invitation
 import uuid
 
 # Create your views here.
-@login_required
 def index(request):
-  if request.method == "GET":
-    return render(request,"app/index.html")
+  if request.user.is_authenticated:
+    if request.method == "GET":
+      return render(request,"app/index.html")
+  else:
+    return redirect("login")
   
 
 def register_view(request):

@@ -1,9 +1,9 @@
 {% extends "app/layout.html" %}
 
-{% block title %}Efficargo{% endblock %}
+{% block title %}Logimize{% endblock %}
 
 {% block body %}
-<style>
+<!-- <style>
   /* Define styles for the map container */
   #map {
       width: 100%;
@@ -25,5 +25,27 @@
                 zoom: 7
             })
         });
-    </script>
+
+        var routeCoordinates = [
+        ol.proj.fromLonLat([24.9668, 45.9432]), // Start point
+        ol.proj.fromLonLat([26.1025, 44.4268])  // End point
+        // Add more points as needed
+        ];
+
+        // Create a LineString feature for the route
+        var route = new ol.Feature({
+            geometry: new ol.geom.LineString(routeCoordinates)
+        });
+
+        // Create a vector source and add the route feature to it
+        var vectorSource = new ol.source.Vector({
+            features: [route]
+        });
+
+        // Create a vector layer and add it to the map
+        var vectorLayer = new ol.layer.Vector({
+            source: vectorSource
+        });
+        map.addLayer(vectorLayer);
+    </script> -->
 {% endblock %}
