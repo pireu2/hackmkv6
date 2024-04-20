@@ -2,7 +2,7 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 
-from .models import User, Invitation, CompanyInvitation, Company, Vehicle
+from .models import User, Invitation, CompanyInvitation, Company, Vehicle, Cargo
 import uuid
 
 # Create your views here.
@@ -145,3 +145,20 @@ def invite_view(request):
         break
     Invitation.objects.create(code=invitation_code,created_by=request.user,user_type=user_type)
     return render(request,"app/invite.html",{"invitation_message":invitation_code})
+  
+@login_required
+def cargo_view(request):
+  if request.method == 'GET':
+    return render(request, "app/cargo.html")
+  elif request.method == 'POST':
+    cargo_name = request.POST.get("name")
+    cargo_mass = request.POST.get("mass")
+    cargo_volume = request.POST.get("volume")
+    cargo_destination = request.POST.get("destination")
+    cargo_source = request.POST.get("source")
+    cargo_company = request.user.company
+    if not cargo_name or not cargo_mass or not cargo_volume or not cargo_destination or not cargo_source:
+      return render(request, "app/cargo.html", {"error": "All fields are required"})
+    Cargo.objects.create(name=cargo_name,mass=cargo_mass,volume=cargo_volume,company=cargo_company,source_address=cargo_source,destination_address=cargo_destination)
+    
+    return redirect("index")
