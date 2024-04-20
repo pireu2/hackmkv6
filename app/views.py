@@ -160,3 +160,9 @@ def register_cargo_view(request):
     Cargo.objects.create(name=cargo_name,mass=cargo_mass,volume=cargo_volume,company=cargo_company,source_address=cargo_source,destination_address=cargo_destination)
     
     return redirect("index")
+  
+@login_required
+def cargo_view(request):
+  if request.method == 'GET':
+    cargo = Cargo.objects.filter(company=request.user.company)
+    return render(request, "app/cargo.html", {"cargos":cargo})
