@@ -33,7 +33,7 @@
       <span class="material-symbols-outlined text-white">
         local_shipping
       </span>
-        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Efficargo</span>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Logimize</span>
     </a>
     {% endif %}
     <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  " aria-controls="navbar-default" aria-expanded="false">
@@ -44,22 +44,27 @@
     </button>
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
       <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-800 rounded-lg bg-gray-900 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  ">
-        
         {% if user.is_authenticated %}
-          {% if user.get_user_type == 'admin' %}
+          {% if user.get_user_type == 'admin' or user.get_user_type == 'owner' %}
           <li>
-            <a href="/invite" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Invite</a>
+            <a href="/invite" class="block py-2 px-3 text-white rounded hover:bg-indigo-900md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Invite</a>
           </li>
           {% endif %}
         <li>
-          <a href="/logout" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Logout</a>
+          <a href="/logout" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Logout</a>
         </li>
         {% else %}
-        <li>
-          <a href="/register" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Register</a>
+        <li class="relative">
+          <button id="dropdownRegisterLink" class="flex items-center py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Register <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+          </svg></button>
+          <div id="dropdownRegister" class="absolute top-full z-10 hidden font-normal bg-gray-900 divide-y divide-gray-950 border-gray-950  rounded-lg shadow w-44">
+            <a href="/register" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 border-gray-950 ">Register User</a>
+            <a href="/register_company" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 border-gray-950 ">Register Company</a>
+          </div>
         </li>
         <li>
-          <a href="/login" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Login</a>
+          <a href="/login" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Login</a>
         </li>
         {% endif %}
       </ul>
@@ -77,6 +82,8 @@
 </body>
 
 <script>
+
+
   document.addEventListener('DOMContentLoaded', function() {
     var toggle = document.querySelector('[data-collapse-toggle="navbar-default"]');
     var target = document.querySelector('#navbar-default');
@@ -85,6 +92,14 @@
       var isExpanded = toggle.getAttribute('aria-expanded') === 'true';
       toggle.setAttribute('aria-expanded', !isExpanded);
       target.classList.toggle('hidden', isExpanded);
+    });
+
+    var dropdownRegisterLink = document.getElementById('dropdownRegisterLink');
+    var dropdownRegister = document.getElementById('dropdownRegister');
+
+    dropdownRegisterLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      dropdownRegister.classList.toggle('hidden');
     });
   });
   </script>
