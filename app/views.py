@@ -147,7 +147,7 @@ def invite_view(request):
 @login_required
 def register_cargo_view(request):
   if request.method == 'GET':
-    return render(request, "app/cargo.html")
+    return render(request, "app/register_cargo.html")
   elif request.method == 'POST':
     cargo_name = request.POST.get("name")
     cargo_mass = request.POST.get("mass")
