@@ -47,6 +47,18 @@
         {% if user.is_authenticated %}
           {% if user.get_user_type == 'admin' or user.get_user_type == 'owner' %}
           <li>
+            <a href="/vehicles" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Vehicles</a>
+          </li>
+          <li class="relative">
+            <button id="dropdownRegisterLink" class="flex items-center py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">New Register<svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg></button>
+            <div id="dropdownRegister" class="absolute top-full z-10 hidden font-normal bg-gray-900 divide-y divide-gray-950 border-gray-950  rounded-lg shadow w-44">
+              <a href="/register_vehicle" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 border-gray-950 ">Register Vehicle</a>
+              <a href="/register_cargo" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 border-gray-950 ">Register Cargo</a>
+            </div>
+          </li>
+          <li>
             <a href="/invite" class="block py-2 px-3 text-white rounded hover:bg-indigo-900md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Invite</a>
           </li>
           {% endif %}
@@ -65,6 +77,11 @@
         </li>
         <li>
           <a href="/login" class="block py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Login</a>
+        </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li>
+          <a  class="block py-2 px-3 text-white rounded hover:bg-indigo-900 md:hover:bg-transparent md:border-0 md:p-0 ">{{user.username}}</a>
         </li>
         {% endif %}
       </ul>

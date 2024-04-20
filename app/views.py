@@ -77,7 +77,7 @@ def register_view(request):
       return render(request,"app/register.html",{"error":"Email already exists"})
     User.objects.create_user(username=username,password=password,
                              phone_number=phone_number,user_type=user_type,company = company)
-    return render(request,"app/login.html")
+    return redirect("login")
 
 
 
@@ -89,12 +89,10 @@ def login_view(request):
   elif request.method == "POST":
     username = request.POST.get("username").strip()
     password = request.POST.get("password").strip()
-    print(username,password)
     user = authenticate(request,username=username,password=password)
-    print(user)
     if user is not None:
       login(request,user)
-      return render(request,"app/index.html")
+      return redirect("index")
     else:
       return render(request,"app/login.html",{"error":"Invalid credentials"})
 
@@ -124,7 +122,13 @@ def register_vehicle_view(request):
     Vehicle.objects.create(plate_number=vehicle_number,type=vehicle_type,model=vehicle_model,capacity_mass=vehicle_capacity_mass,capacity_volume=vehicle_capacity_volume,company=vehicle_company)
 
     
-    return render(request, "app/index.html")
+    return redirect("index")
+  
+@login_required
+def vehicles_view(request):
+  if request.method == 'GET':
+    vehicles = Vehicle.objects.filter(company=request.user.company)
+    return render(request, "app/vehicles.html", {"vehicles":vehicles})
 
 @login_required
 def invite_view(request):
