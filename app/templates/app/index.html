@@ -1,17 +1,29 @@
 {% extends "app/layout.html" %}
 
-{% block title %}Welcome to the Test HTML File{% endblock %}
+{% block title %}Efficargo{% endblock %}
 
 {% block body %}
-  <h1 class="text-4xl text-center text-red-500">Welcome to the Test HTML File</h1>
-  <p class="text-center text-blue-100">asddasd</p>
-  <p class="text-center text-blue-200">asddasd</p>
-  <p class="text-center text-blue-300">asddasd</p>
-  <form action="/logout" method="POST">
-    {% csrf_token %}
-    <button type="submit"
-      class="w-full text-white bg-indigo-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-      Logout
-    </button>
-  </form>
+<style>
+  /* Define styles for the map container */
+  #map {
+      width: 100%;
+      height: 600px;
+  }
+</style>
+<div id="map"></div>
+    <script>
+        // Initialize the map
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([24.9668, 45.9432]),
+                zoom: 7
+            })
+        });
+    </script>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 
 from .models import User, Invitation
+import uuid
 
 # Create your views here.
 @login_required
@@ -71,3 +72,19 @@ def login_view(request):
 def logout_view(request):
   logout(request)
   return redirect("login")
+
+@login_required
+def invite_view(request):
+  if request.method == 'GET':
+    if request.user.get_user_type() != 'admin':
+      return redirect("index")
+    return render(request, "app/invite.html")
+  elif request.method == 'POST':
+    user_type = request.POST.get("user_type")
+    user_type = user_type.lower()
+    while True:
+      invitation_code = uuid.uuid4()
+      if not Invitation.objects.filter(code=invitation_code).exists():
+        break
+    Invitation.objects.create(code=invitation_code,created_by=request.user,user_type=user_type)
+    return render(request,"app/invite.html",{"invitation_message":invitation_code})

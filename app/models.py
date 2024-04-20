@@ -15,6 +15,9 @@ class User(AbstractUser):
   def __repr__(self) -> str:
     return f'{self.username} - {self.user_type} - {self.phone_number}'
   
+  def get_user_type(self):
+    return self.user_type
+  
 class Invitation(models.Model):
   code = models.CharField(max_length=50, unique=True)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
