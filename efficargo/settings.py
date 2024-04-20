@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'app.User'
+APPEND_SLASH=False
 
 INSTALLED_APPS = [
     'app',

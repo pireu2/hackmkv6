@@ -7,4 +7,11 @@
   <p class="text-center text-blue-100">asddasd</p>
   <p class="text-center text-blue-200">asddasd</p>
   <p class="text-center text-blue-300">asddasd</p>
+  <form action="/logout" method="POST">
+    {% csrf_token %}
+    <button type="submit"
+      class="w-full text-white bg-indigo-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+      Logout
+    </button>
+  </form>
 {% endblock %}
