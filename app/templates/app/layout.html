@@ -52,6 +52,9 @@
         {% if user.is_authenticated %}
           {% if user.get_user_type == 'admin' or user.get_user_type == 'owner' %}
           <li>
+            <a href="/map" class="block py-2 px-3 text-white rounded hover:bg-blue-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Map</a>
+          </li>
+          <li>
             <a href="/vehicles" class="block py-2 px-3 text-white rounded hover:bg-blue-900 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Vehicles</a>
           </li>
           <li>

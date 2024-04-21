@@ -39,7 +39,7 @@
         </thead>
         <tbody>
           {%for vehicle in vehicles%}
-            <tr class="bg-indigo-950 border-b border-gray-900">
+            <tr class="bg-blue-950 border-b border-gray-900">
                 <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                     {{vehicle.plate_number}}
                 </th>
@@ -67,11 +67,11 @@
                 <td class="px-6 py-4">
                     {{vehicle.capacity_volume}}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 status">
                   {% if vehicle.active %}
-                    Yes
+                    Active
                   {% else %}
-                    No
+                    Inactive
                   {% endif %}
               </td>
               <td class="px-6 py-4">
@@ -79,14 +79,14 @@
             </td>
             <td class="px-6 py-4">
               {% if vehicle.driver %}
-                {{vehicle.driver.username} }
+                {{vehicle.driver.username}}
               {% else %}
                 -
               {% endif %}
 
             </tr>
             {% empty %}
-            <tr class="bg-indigo-950 border-b border-gray-900">
+            <tr class="bg-blue-950 border-b border-gray-900">
                 <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                     No vehicles found
                 </th>
@@ -110,6 +110,29 @@
     </table>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    setInterval(function() {
+      // Get all status cells
+      var statusCells = Array.from(document.querySelectorAll('td.status'));
+
+      // Filter out the active vehicles
+      var inactiveStatusCells = statusCells.filter(function(cell) {
+        return cell.innerHTML !== 'Active';
+      });
+
+      // If there are no inactive vehicles, return
+      if (inactiveStatusCells.length === 0) return;
+
+      // Select a random status cell
+      var randomStatusCell = inactiveStatusCells[Math.floor(Math.random() * inactiveStatusCells.length)];
+
+      // Make the random vehicle active
+      randomStatusCell.innerHTML = 'Active';
+    }, 5000); // Run every 5 seconds
+  });
+</script>
 
 
 

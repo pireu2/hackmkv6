@@ -3,6 +3,13 @@
 {% block title %}Logimize{% endblock %}
 
 {% block body %}
+
+<h1 class="flex items-center align-middle gap-2  justify-center text-5xl font-bold text-center text-white w-full mt-10 mb-5">
+  <span class="text-5xl material-symbols-outlined text-white">
+    local_shipping
+  </span>
+  Logimize</h1>
+
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 m-12 justify-center">
   <div class="max-w-sm w-full rounded-lg shadow bg-gray-900 p-4 md:p-6 h-100">
     <div class="flex justify-between">
@@ -774,7 +781,7 @@ const options = {
     },
     type: "bar",
     width: "100%",
-    height: 300px,
+    height: "300px",
     toolbar: {
       show: false,
     }
@@ -883,61 +890,4 @@ if (document.getElementById("area-chart3") && typeof ApexCharts !== 'undefined')
 }
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <style>
-  /* Define styles for the map container */
-  #map {
-      width: 100%;
-      height: 600px;
-  }
-</style>
-<div id="map"></div>
-    <script>
-        // Initialize the map
-        var map = new ol.Map({
-            target: 'map',
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                })
-            ],
-            view: new ol.View({
-                center: ol.proj.fromLonLat([24.9668, 45.9432]),
-                zoom: 7
-            })
-        });
-
-        var routeCoordinates = [
-        ol.proj.fromLonLat([24.9668, 45.9432]), // Start point
-        ol.proj.fromLonLat([26.1025, 44.4268])  // End point
-        // Add more points as needed
-        ];
-
-        // Create a LineString feature for the route
-        var route = new ol.Feature({
-            geometry: new ol.geom.LineString(routeCoordinates)
-        });
-
-        // Create a vector source and add the route feature to it
-        var vectorSource = new ol.source.Vector({
-            features: [route]
-        });
-
-        // Create a vector layer and add it to the map
-        var vectorLayer = new ol.layer.Vector({
-            source: vectorSource
-        });
-        map.addLayer(vectorLayer);
-    </script> -->
 {% endblock %}

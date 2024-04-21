@@ -169,3 +169,8 @@ def cargo_view(request):
   if request.method == 'GET':
     cargo = Cargo.objects.filter(company=request.user.company)
     return render(request, "app/cargo.html", {"cargos":cargo})
+  
+@login_required
+def map_view(request):
+  if request.method == 'GET':
+    return render(request, "app/map.html")

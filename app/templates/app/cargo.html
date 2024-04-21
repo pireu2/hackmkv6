@@ -49,11 +49,11 @@
                 <td class="px-6 py-4">
                     {{cargo.volume}}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 status">
                   {% if cargo.active %}
-                    Yes
+                    Active
                   {% else %}
-                    No
+                    Inactive
                   {% endif %}
               </td>
             </tr>
@@ -83,6 +83,28 @@
   </div>
 </section>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    setInterval(function() {
+      // Get all status cells
+      var statusCells = Array.from(document.querySelectorAll('td.status'));
+
+      // Filter out the active vehicles
+      var inactiveStatusCells = statusCells.filter(function(cell) {
+        return cell.innerHTML !== 'Active';
+      });
+
+      // If there are no inactive vehicles, return
+      if (inactiveStatusCells.length === 0) return;
+
+      // Select a random status cell
+      var randomStatusCell = inactiveStatusCells[Math.floor(Math.random() * inactiveStatusCells.length)];
+
+      // Make the random vehicle active
+      randomStatusCell.innerHTML = 'Active';
+    }, 5000); // Run every 5 seconds
+  });
+</script>
 
 
 {% endblock %}

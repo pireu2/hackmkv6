@@ -1,0 +1,202 @@
+{% extends "app/layout.html" %}
+
+{% block title %}Logimize{% endblock %}
+
+{% block body %}
+
+
+<style>
+  /* Define styles for the map container */
+  #map {
+      width: 100%;
+      height: 100vh;
+  }
+  #popup {
+  position: absolute;
+  background-color: #292929;
+  border-radius: 10px;
+  width: 200px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+</style>
+<div id="map"></div>
+<div id="popup" class="ol-popup">
+    <p id="text-popup" class="font-normal text-white "></p>
+</div>
+    <script>
+        // Initialize the map
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([24.9668, 45.9432]),
+                zoom: 7
+            })
+        });
+
+       
+
+        var routeCoordinates1 = [
+        ol.proj.fromLonLat([23.62, 46.76]), // Cluj
+        ol.proj.fromLonLat([21.23, 45.75]), // Timisoara
+        ol.proj.fromLonLat([25.62, 45.64]), // Brasov
+        ol.proj.fromLonLat([26.1025, 44.4268])  // Bucuresti
+        // Add more points as needed
+        ];
+        
+        var routeCoordinates2 = [
+        ol.proj.fromLonLat([23.62, 46.76]), // Cluj
+        ol.proj.fromLonLat([23.87, 47.13]), // Dej
+        ol.proj.fromLonLat([23.59, 47.64]), // Baia Mare
+        ol.proj.fromLonLat([22.87, 47.79]), // Satu Mare
+        ol.proj.fromLonLat([21.91, 47.06]), // Oradea
+        ];
+
+        var routeCoordinates3 = [
+        ol.proj.fromLonLat([23.62, 46.76]), // Cluj
+        ol.proj.fromLonLat([24.55, 46.52]), // Targu Mures
+        ol.proj.fromLonLat([25.35, 46.91]), 
+        ol.proj.fromLonLat([26.26, 47.65]),
+        ol.proj.fromLonLat([27.59, 47.14]),
+        ];
+
+        var routeCoordinates4 = [
+        ol.proj.fromLonLat([23.62, 46.76]), // Cluj
+        ol.proj.fromLonLat([24.79, 46.21]), 
+        ol.proj.fromLonLat([25.62, 45.64]), 
+        ol.proj.fromLonLat([25.64, 44.98]),
+        ol.proj.fromLonLat([26.82, 45.13]),
+        ol.proj.fromLonLat([28.63, 44.17]),
+        ];
+        
+
+        function Truck(name,initialETA) {
+        this.name = name;
+        this.eta = initialETA*60*60;
+      }
+
+      Truck.prototype.update = function(popupContent) {
+        // Decrement the ETA
+        if (this.eta > 0) {
+          this.eta--;
+        }
+        var hours = parseInt(this.eta/3600);
+        var minutes = parseInt((this.eta%3600)/60);
+        var seconds = this.eta%60;
+
+        // Update the popup content
+        popupContent.innerHTML = `<p>Name: ${this.name}</p><p>Truck ETA: ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      // Create a new Truck for each route
+
+      var truck1 = new Truck('Truck 1', 10);
+      var truck2 = new Truck('Truck 2', 15);
+      var truck3 = new Truck('Truck 3', 20);
+      var truck4 = new Truck('Ford Transit', 2);
+      
+
+
+        // Create a LineString feature for the route
+        var route1 = new ol.Feature({
+            geometry: new ol.geom.LineString(routeCoordinates1),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#ff1111', // Red color for the first line
+                    width: 4
+                })
+            }),
+            truck: truck1
+        });
+
+        var route2 = new ol.Feature({
+            geometry: new ol.geom.LineString(routeCoordinates2),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#1111ff', // Blue color for the second line
+                    width: 4
+                })
+            }),
+            truck: truck2
+        });
+
+        var route3 = new ol.Feature({
+            geometry: new ol.geom.LineString(routeCoordinates3),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#11ff11', // Green color for the third line
+                    width: 4
+                })
+            }),
+            truck: truck3
+        });
+
+        var route4 = new ol.Feature({
+            geometry: new ol.geom.LineString(routeCoordinates4),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#ff11ff', // Purple color for the fourth line
+                    width: 4
+                })
+            }),
+            truck: truck4
+        });
+
+        // Create a vector source and add the route feature to it
+        var vectorSource = new ol.source.Vector({
+            features: [route1,route2,route3,route4]
+        });
+
+        // Create a vector layer and add it to the map
+        var vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: function(feature) {
+                return feature.get('style');
+            }
+        });
+        map.addLayer(vectorLayer);
+        var popup = new ol.Overlay({
+          element: document.getElementById('popup')
+        });
+        map.addOverlay(popup);
+
+
+
+       
+
+        var popupContent = document.getElementById('text-popup');
+
+        // Update the trucks' ETAs every hour and update the popup content
+        setInterval(function() {
+          truck1.update(popupContent);
+          truck2.update(popupContent);
+          truck3.update(popupContent);
+          truck4.update(popupContent);
+        }, 1000);
+
+
+        // Display the popup when a line is clicked
+        map.on('click', function(evt) {
+          var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return feature;
+          });
+
+          if (feature) {
+            var coordinates = evt.coordinate;
+            var content = document.getElementById('popup-content');
+            var truck = feature.get('truck');
+            popup.setPosition(coordinates);
+          } else {
+            popup.setPosition(undefined);
+          }
+        });
+    </script>
+
+{% endblock %}
