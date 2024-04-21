@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'media',
   content: ['app/templates/app/*.html', '../app/**/*.html'],
   theme: {
     extend: {
@@ -45,6 +46,11 @@ module.exports = {
   ]
     }
   },
-  plugins: []
+  
+  plugins: [
+    require('flowbite/plugin')({
+        charts: true,
+    }),
+  ]
 }
 
