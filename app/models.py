@@ -58,6 +58,7 @@ class Vehicle(models.Model):
   capacity_volume = models.IntegerField(validators=[MinValueValidator(1)])
   company = models.ForeignKey(Company, on_delete=models.CASCADE,blank=False,null=False)
   current_location = models.CharField(max_length=100, default="")
+  driver = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
   is_active = models.BooleanField(default=True)
 
 class Cargo(models.Model):

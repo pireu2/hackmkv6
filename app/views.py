@@ -128,6 +128,7 @@ def register_vehicle_view(request):
 def vehicles_view(request):
   if request.method == 'GET':
     vehicles = Vehicle.objects.filter(company=request.user.company)
+    addresses = [(vehicle.id,vehicle.current_location) for vehicle in vehicles]
     return render(request, "app/vehicles.html", {"vehicles":vehicles})
 
 @login_required
